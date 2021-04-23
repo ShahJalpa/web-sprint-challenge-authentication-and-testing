@@ -16,7 +16,7 @@ async function isAvailableUser (req, res, next) {
             if(result.length === 0){
                 next()
             } else {
-                res.status(500).json({message: 'username is not available'})
+                res.status(500).json({message: 'username taken'})
             }
         })
 }
