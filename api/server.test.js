@@ -81,4 +81,17 @@ describe('the API endpoints', () => {
     })
   })
 
+  describe('[GET] /api/jokes', () => {
+    it('should not permit the access if token is not there', async() => {
+      const res = await request(server).get('/api/jokes');
+      expect(res.body.message).toEqual('token required');
+    })
+    it('should not permit the access if token is not valid', async() => {
+      const res = await request(server)
+            .get('/api/jokes')
+            .set('Authorization', 'notValidToken');
+      expect(res.body.message).toEqual('token invalid');
+    })
+  })
+
 })
