@@ -58,5 +58,27 @@ describe('the API endpoints', () => {
     })
   })
 
+  describe('[POST] /api/auth/login', () => {
+    it('should return welcome message and token', async () => {
+      await request(server).post('/api/auth/register').send(user);
+      const res = await request(server)
+          .post('/api/auth/login')
+          .send(user);
+      expect(res.body.message).toBe('welcome, Captain Marvel');
+      expect(res.body).toHaveProperty('token');
+    })
+    it('should verifies the password', async () => {
+      await request(server).post('/api/auth/register').send(user);
+      const someOtherUser = {
+        username: 'Captain Marvel',
+        password: 'something'
+      }
+      const res = await request(server)
+          .post('/api/auth/login')
+          .send(someOtherUser);
+
+      expect(res.body).toEqual({ message: 'invalid credentials' });
+    })
+  })
 
 })
